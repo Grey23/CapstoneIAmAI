@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IAM.AI - Login Portal</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9f5f7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 15px 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #ff69b4;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: #ff1493;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        .login-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(219, 112, 147, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(219, 112, 147, 0.1);
+        }
+
+        .login-card:hover {
+            box-shadow: 0 15px 40px rgba(219, 112, 147, 0.15);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-logo img {
+            height: 60px;
+        }
+
+        .login-title {
+            text-align: center;
+            color: #ff69b4;
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #ff69b4;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 105, 180, 0.2);
+            background-color: #fff;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(219, 112, 147, 0.05);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #ff69b4;
+            box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
+        }
+
+        .forgot-link {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .forgot-link a {
+            color: #ff69b4;
+            font-size: 12px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-link a:hover {
+            color: #ff1493;
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(255, 105, 180, 0.2);
+        }
+
+        .login-btn:hover {
+            background-color: #ff1493;
+            box-shadow: 0 6px 8px rgba(255, 105, 180, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .switch-view {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .switch-view p,
+        .switch-view button {
+            color: #ff69b4;
+        }
+
+        .switch-view button {
+            background: none;
+            border: none;
+            text-decoration: underline;
+            cursor: pointer;
+            padding: 5px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .switch-view button:hover {
+            color: #ff1493;
+        }
+
+        .role-selection {
+            display: none;
+        }
+
+        .role-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(219, 112, 147, 0.1);
+            text-align: center;
+            border: 1px solid rgba(219, 112, 147, 0.1);
+        }
+
+        .role-title {
+            font-size: 24px;
+            color: #ff69b4;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .roles {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .role-btn {
+            background-color: #fff0f5;
+            border: 1px solid rgba(255, 105, 180, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            color: #ff69b4;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .role-btn:hover {
+            background-color: #ff69b4;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(255, 105, 180, 0.2);
+        }
+
+        .help-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .help-section a {
+            color: #ff69b4;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .help-section a:hover {
+            color: #ff1493;
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: #2e7d32;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .alert-error {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: #c62828;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        @media (max-width: 480px) {
+
+            .login-card,
+            .role-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <!-- Marketing Login Form (First Image) -->
+    <div class="login-container marketing-login">
+        <div class="login-card">
+            <div class="login-logo">
+                <a href="homepage.html">
+                    <img src="logo.png" alt="I AM AI" title="I AM AI">
+                </a>
+            </div>
+            <div id="loginAlert" class="alert"></div>
+            <h2 class="login-title">Login As Client</h2>
+
+            <form id="loginForm" method="post">
+                <input type="hidden" id="selectedRole" name="role" value="Client">
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="example@iam.ai" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+                </div>
+
+                <div class="remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+
+                <div class="forgot-link">
+                    <a href="forgot-password.php">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="login-btn">Sign In</button>
+            </form>
+        </div>
+
+        <div class="switch-view">
+            <button id="showRoleSelection">Select Another Role</button>
+        </div>
+
+        <div class="help-section">
+            <a href="help.php">Need Help?</a>
+            <a href="support.php">Contact Support</a>
+        </div>
+    </div>
+
+    <!-- Role Selection (Second Image) -->
+    <div class="login-container role-selection">
+        <div class="role-card">
+            <h2 class="role-title">Login as?</h2>
+
+            <div class="roles">
+                <button class="role-btn" data-role="Client">Client</button>
+                <button class="role-btn" data-role="Agent">AGENT</button>
+                <button class="role-btn" data-role="Marketing">MARKETING</button>
+                <button class="role-btn" data-role="Admin">ADMIN</button>
+                <button class="role-btn" data-role="Graphics">GRAPHICS DESIGNER</button>
+            </div>
+        </div>
+
+        <div class="switch-view">
+            <button id="showMarketingLogin">Back to Login Form</button>
+        </div>
+
+        <div class="help-section">
+            <a href="help.php">Need Help?</a>
+            <a href="support.php">Contact Support</a>
+        </div>
+    </div>
+
+    <script>
+        // Para sa pag pili ng login form
+        document.getElementById('showRoleSelection').addEventListener('click', function() {
+            document.querySelector('.marketing-login').style.display = 'none';
+            document.querySelector('.role-selection').style.display = 'block';
+        });
+
+        document.getElementById('showMarketingLogin').addEventListener('click', function() {
+            document.querySelector('.marketing-login').style.display = 'block';
+            document.querySelector('.role-selection').style.display = 'none';
+        });
+
+        // role selections
+        const roleButtons = document.querySelectorAll('.role-btn');
+        roleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const role = this.getAttribute('data-role');
+                document.querySelector('.login-title').textContent = `Login As ${role}`;
+                document.getElementById('selectedRole').value = role;
+                document.querySelector('.marketing-login').style.display = 'block';
+                document.querySelector('.role-selection').style.display = 'none';
+            });
+        });
+
+        // Show alert message
+        function showAlert(message, type) {
+            const alertBox = document.getElementById('loginAlert');
+            alertBox.textContent = message;
+            alertBox.className = `alert alert-${type}`;
+            alertBox.style.display = 'block';
+
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 5000);
+        }
+
+        // Form submission using AJAX
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            formData.append('remember', document.getElementById('remember').checked ? 'true' : 'false');
+
+            fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showAlert(data.message, 'success');
+                        // Redirect after successful login
+                        setTimeout(() => {
+                            window.location.href = data.redirect || 'dashboard.php';
+                        }, 1000);
+                    } else {
+                        showAlert(data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    showAlert('An error occurred. Please try again.', 'error');
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+
+</html>

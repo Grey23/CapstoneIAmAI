@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IAM.AI - Inquire Now</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #e290cf;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .inquiry-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .inquiry-title {
+            text-align: center;
+            color: #e290cf;
+            font-size: 24px;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .form-group label .required {
+            color: #e290cf;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #e290cf;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #d77ec0;
+        }
+        
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        @media (max-width: 480px) {
+            .inquiry-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="inquiry-card">
+        <h2 class="inquiry-title">INQUIRE NOW</h2>
+        
+        <?php if (!empty($success_message)): ?>
+        <div class="alert alert-success">
+            <?php echo $success_message; ?>
+        </div>
+        <?php endif; ?>
+        
+        <?php if (!empty($error_message)): ?>
+        <div class="alert alert-danger">
+            <?php echo $error_message; ?>
+        </div>
+        <?php endif; ?>
+        
+        <form id="inquiryForm" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <div class="form-group">
+                <label for="email">Email <span class="required">*</span></label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="contactNumber">Contact Number <span class="required">*</span></label>
+                <input type="tel" id="contactNumber" name="contactNumber" class="form-control" placeholder="Contact Number" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="serviceType">Type of Service <span class="required">*</span></label>
+                <input type="text" id="serviceType" name="serviceType" class="form-control" placeholder="Input the type of service" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Message <span class="required">*</span></label>
+                <textarea id="message" name="message" class="form-control" placeholder="Type your message here not required"></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
